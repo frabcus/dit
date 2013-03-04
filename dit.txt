@@ -1,0 +1,143 @@
+Dit, a distributed relational database
+======================================
+
+Purposes
+========
+
+Dit is distributed for the purposes of:
+
+1. Control
+
+Separate actors have their own independent copies of [nice: copies of subsets
+of] a database. This is so they retain their own agency. 
+
+2. Collaboration
+
+Separate actors can efficiently synchronise changes to their copies of the
+database [nice: changes to subsets] with each other.
+
+This works whether a human or artificial agent made the changes. It can happen
+peerwise in any direction between any pair of agents. Merging data and dealing
+with conflicts happens in a robust manner.
+
+3. (Scaling)
+
+For one actor, dit can be used to have multiple copies of the same data [nice:
+subsets of the same data] on separate computers, syncing updates. This can help
+them effectively scale for large load volumes.
+
+
+Motivation
+==========
+
+If an upstream actor disappears or changes economic or political behaviour,
+dit offers independence. 
+
+If an actor is on the edge of the network -- high latency or low bandwidth or
+no connectivity to all or part of the rest of the network -- their applications
+will continue to work with reduced collaboration.
+
+This happens during a rare network outage, in a remote area on a low bandwidth
+satellite link, on an aeroplane in the early C21 (in space later), during an
+extreme disaster situation.
+
+This happens when restricted for political reasons to just one continent's
+network or just to a very local mesh network.
+
+It's easy if you're sitting in a high bandwidth part of the modern, centralised
+Internet to not care about any of the above. While this is risky, in the short
+term it will work. However, it misses the real advantage.
+
+The real advantage is an extra abstraction layer that simplifies all sorts of
+common things that we do. Sharing data, copying data, submitting changes to
+data, getting updates of data - all are currently handled in an adhoc manner,
+with often complex code specific to each use case.
+
+
+Need for a new project
+======================
+
+CouchDB and git are the nearest two existing projects that got noticeable
+traction. Neither is suitable for our purposes.
+
+Couched in danger
+-----------------
+
+CouchDB has failed because of the distraction of the CouchBase rewrite, which
+changed it from focussing on all three purposes, to just one.
+
+There was an economic motivation to use Couch's original idea principally for
+scaling within one actor -- so called Big Data.
+
+Additionally, the underlying database had its own new query language. The query
+language for dit should be relational, and very compatible with SQL. This is
+just like git worked with recursive trees of text files.
+
+git is for text
+---------------
+
+git is designed for storing recursive trees of text files, which are indexed
+when instantiated only as a navigational database - i.e. a filesystem with
+paths to look up data.
+
+While git can be adapted to storing other data, it's not fundamentally designed
+to efficiently work with relational data. 
+
+It's possible an implementation of dit could be made by, say, storing JSON
+files in git, or changing git's backend to work efficiently with SQLite files.
+That, however, would be an implementation detail, and likely restricted to an
+initial prototype.
+
+
+
+
+Unfiltered thoughts
+===================
+
+Need to write more of the motivation for it that had inside ScraperWiki - lots
+of the above has turned into more the redecentralisation motivation.
+
+XXX this my todo list - will merge into above proper copy 
+
+Work with any backend real database - in particular, SQLite and PostgreSQL
+A database is a directory on a filesystem
+Separate backend, so if on one system can share storage between forks of databases.
+Indexing is a lazy backend thing done for speed, and with hints.
+
+History storage - obviously that just has to be there and has to just work
+  Data can be large, so history must be excisable when required
+
+Allow querying of remote databases in a standard manner without copying the
+data (kind of saying that filesystem access of a checked out copy in git
+should be the same protocol as git:// repository syncing!)
+
+(Optionally, allows one query to relationally mix between local and remote
+database)
+
+(Nice, allows partial copying of databases, so you can get samples of large
+data sets) 
+
+XXX is this really nice, or absolutely required? if I'm doing social networking
+with documents, I want to sync just the documents I have access to, however I
+want others to have access - making each document its own database would be the
+way to think of that I guess. Need to think about this a lot more.
+
+Operations - what do we have?
+
+Operational transforms
+Clojure collections
+
+Merge strategies
+
+
+Nomenclature of this document
+=============================
+
+Critical/Essential - no brackets
+Optional () - round brackets
+Nice [] - square brackets
+
+
+
+
+
