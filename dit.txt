@@ -1,6 +1,7 @@
 Dit, a distributed relational database
 ======================================
 
+
 Purposes
 ========
 
@@ -89,45 +90,56 @@ That, however, would be an implementation detail, and likely restricted to an
 initial prototype.
 
 
+Expected use as end user
+========================
+
+1. My database, if I've synced it all to a computer, is fully available with
+all facilities on that computer.
+
+( 2. My database keeps all history of changes in the natural course 
+of events. )
+
+[ 3. I can check out any version of my database fairly quickly, and can
+then query that as if it were the latest data. ]
+
+4. A database can be efficiently synced with another database, bringing
+it up to date with the latest changes.
+
+5. A database can be trivially forked, either by syncing it to a new
+database or by copying its files.
+
+( 6. If syncing back together two once forked database, enough semantics will
+have been recorded or will be inferrable to let it "do the sensible thing". )
+
+( 7. I can synchronise just part of a database by SQL or time filter, as I
+might not have permissions or storage space to synchronise all of it. )
+
+8. I can query a remote database, which maybe I don't have a full copy of
+locally, with essentially the same protocol as a local one.
+
+[ 9. I can query slowly across two databases, local and/or remote, with joins
+between them as if they were one. ]
+
+[ 10. My database just uses SQLite or PostgreSQL or similar as its indexing
+backend / query engine, so it is compatible with their SQL. ]
+
+11. My database uses a large subset of actual SQL as its query language.
+It is made as compatible as possible with other SQL databases.
 
 
-Unfiltered thoughts
-===================
+Notes on uses
+-------------
 
-Need to write more of the motivation for it that had inside ScraperWiki - lots
-of the above has turned into more the redecentralisation motivation.
+I'm not completely sure we need 7 and 8, git doesn't have them. It has related
+features such as making an entirely new repository which is a filter of an old
+one, but that loses merge commonality; and of course you can query a remote
+database by syncing all of it first...
 
-XXX this my todo list - will merge into above proper copy 
+I think we need 8 as data can be an arbitarily large thing, source code isn't.
 
-Work with any backend real database - in particular, SQLite and PostgreSQL
-A database is a directory on a filesystem
-Separate backend, so if on one system can share storage between forks of databases.
-Indexing is a lazy backend thing done for speed, and with hints.
-
-History storage - obviously that just has to be there and has to just work
-  Data can be large, so history must be excisable when required
-
-Allow querying of remote databases in a standard manner without copying the
-data (kind of saying that filesystem access of a checked out copy in git
-should be the same protocol as git:// repository syncing!)
-
-(Optionally, allows one query to relationally mix between local and remote
-database)
-
-(Nice, allows partial copying of databases, so you can get samples of large
-data sets) 
-
-XXX is this really nice, or absolutely required? if I'm doing social networking
-with documents, I want to sync just the documents I have access to, however I
-want others to have access - making each document its own database would be the
-way to think of that I guess. Need to think about this a lot more.
-
-Operations - what do we have?
-
-Operational transforms
-Clojure collections
-
-Merge strategies
+I'm not sure though, as you could always use 7 with a clever filter to sync
+just the data you're allowed to work with. That doesn't allow analytics across
+all of a large database "select avg(call_length) from all_telephone_calls".
 
 
 Nomenclature of this document
@@ -136,6 +148,35 @@ Nomenclature of this document
 Critical/Essential - no brackets
 Optional () - round brackets
 Nice [] - square brackets
+
+
+
+Todo
+====
+
+Need to write more of the motivation for it that had inside ScraperWiki - lots
+of the above has turned into more the redecentralisation motivation.
+
+A database is a directory on a filesystem
+Separate backend, so if on one system can share storage between forks of databases.
+Indexing is a lazy backend thing done for speed, and with hints.
+Or should we think of the "filesystem" as simply being a field of SQL queries?
+
+Our remote querying is like saying: the filesystem access of a checked out copy
+in git should be the same protocol as git:// repository syncing! Funky!
+
+Operations - what do we have?
+  * Operational transforms
+  * Clojure collections
+
+Should we retrospectively infer operations like git does? That would be loads
+better. We need to work out if we can or we can't do that - if the kinds of
+operations on data are fundamentally different or the same as source code
+in that regard.
+
+Merge strategies
+
+
 
 
 
